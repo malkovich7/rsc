@@ -40,7 +40,7 @@ class RscClienteProveedor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idcliente', 'nombre', 'apellidos', 'direccion_entrega', 'direccion_fiscal', 'rfc', 'clienteproveedor', 'idactivo', 'usuario_modifico', 'created_by'], 'required'],
+            [['nombre', 'apellidos', 'direccion_entrega', 'direccion_fiscal', 'rfc', 'clienteproveedor'],'required'],
             [['idcliente', 'clienteproveedor', 'idactivo', 'usuario_modifico', 'created_by'], 'integer'],
             [['fecha_alta', 'ultima_modificacion'], 'safe'],
             [['nombre', 'apellidos'], 'string', 'max' => 150],
