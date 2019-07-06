@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\RscPrioridadSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Rsc Prioridads';
+$this->title = 'Prioridades';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rsc-prioridad-index">
