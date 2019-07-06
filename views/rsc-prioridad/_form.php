@@ -12,8 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'ordering')->textInput() ?>
-
     <?= $form->field($model, 'nivelprioridad')->textInput() ?>
 
     <?= $form->field($model, 'nombreprioridad')->textInput(['maxlength' => true]) ?>
