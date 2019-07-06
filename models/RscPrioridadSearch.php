@@ -17,7 +17,7 @@ class RscPrioridadSearch extends RscPrioridad
     public function rules()
     {
         return [
-            [['id', 'ordering', 'nivelprioridad', 'created_by', 'modified_by'], 'integer'],
+            [['id', 'nivelprioridad', 'created_by', 'modified_by'], 'integer'],
             [['nombreprioridad', 'descripcion', 'activo', 'ultima_modificacion'], 'safe'],
         ];
     }
@@ -59,7 +59,6 @@ class RscPrioridadSearch extends RscPrioridad
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'ordering' => $this->ordering,
             'nivelprioridad' => $this->nivelprioridad,
             'created_by' => $this->created_by,
             'modified_by' => $this->modified_by,

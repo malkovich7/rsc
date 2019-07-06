@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "rsc_prioridad".
  *
  * @property int $id
- * @property int $ordering
  * @property int $nivelprioridad
  * @property string $nombreprioridad
  * @property string $descripcion
@@ -16,6 +15,8 @@ use Yii;
  * @property int $created_by
  * @property int $modified_by
  * @property string $ultima_modificacion
+ *
+ * @property RscPedidoCabecera[] $rscPedidoCabeceras
  */
 class RscPrioridad extends \yii\db\ActiveRecord
 {
@@ -33,8 +34,8 @@ class RscPrioridad extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ordering', 'nivelprioridad', 'nombreprioridad', 'descripcion', 'activo', 'created_by', 'modified_by'], 'required'],
-            [['ordering', 'nivelprioridad', 'created_by', 'modified_by'], 'integer'],
+            [['nivelprioridad', 'nombreprioridad', 'descripcion', 'activo', 'created_by', 'modified_by'], 'required'],
+            [['nivelprioridad', 'created_by', 'modified_by'], 'integer'],
             [['ultima_modificacion'], 'safe'],
             [['nombreprioridad', 'descripcion'], 'string', 'max' => 100],
             [['activo'], 'string', 'max' => 255],
@@ -47,15 +48,22 @@ class RscPrioridad extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID prioridad',
-            'ordering' => 'Ordering',
+            'id' => 'ID',
             'nivelprioridad' => 'Nivel',
-            'nombreprioridad' => 'Nombre prioridad',
+            'nombreprioridad' => 'Nombre',
             'descripcion' => 'Descripción',
             'activo' => 'Activo',
             'created_by' => 'Created By',
             'modified_by' => 'Modified By',
             'ultima_modificacion' => 'Ultima Modificacion',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRscPedidoCabeceras()
+    {
+        return $this->hasMany(RscPedidoCabecera::className(), ['idprioridad' => 'id']);
     }
 }
