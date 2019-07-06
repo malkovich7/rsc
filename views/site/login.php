@@ -30,6 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
         ])->label('Recúerdame') ?>
 
+        <div style="color:#999;margin:1em 0">
+            <?= Html::a('¿Olvidaste tu contraseña?', ['admin/user/request-password-reset']) ?>
+        </div>
+
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
                 <?= Html::submitButton('Entrar', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
