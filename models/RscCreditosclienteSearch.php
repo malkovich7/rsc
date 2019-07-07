@@ -18,8 +18,8 @@ class RscCreditosclienteSearch extends RscCreditoscliente
     {
         return [
             [['idcliente', 'creditotiempodias', 'activo', 'created_by', 'modified_by'], 'integer'],
-            [['idclienteproveedor', 'notas', 'ultima_modificacion'], 'safe'],
             [['creditomonto'], 'number'],
+            [['notas', 'ultima_modificacion'], 'safe'],
         ];
     }
 
@@ -68,8 +68,7 @@ class RscCreditosclienteSearch extends RscCreditoscliente
             'ultima_modificacion' => $this->ultima_modificacion,
         ]);
 
-        $query->andFilterWhere(['like', 'idclienteproveedor', $this->idclienteproveedor])
-            ->andFilterWhere(['like', 'notas', $this->notas]);
+        $query->andFilterWhere(['like', 'notas', $this->notas]);
 
         return $dataProvider;
     }

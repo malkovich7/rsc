@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "rsc_creditoscliente".
  *
  * @property int $idcliente
- * @property string $idclienteproveedor
  * @property int $creditotiempodias
  * @property double $creditomonto
  * @property string $notas
@@ -18,6 +17,7 @@ use Yii;
  * @property string $ultima_modificacion
  *
  * @property RscClienteProveedor $cliente
+ * @property RscPedidoCabecera[] $rscPedidoCabeceras
  */
 class RscCreditoscliente extends \yii\db\ActiveRecord
 {
@@ -35,11 +35,10 @@ class RscCreditoscliente extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idcliente', 'idclienteproveedor', 'creditotiempodias', 'creditomonto', 'activo', 'created_by', 'modified_by'], 'required'],
+            [['idcliente', 'creditotiempodias', 'creditomonto' ], 'required'],
             [['idcliente', 'creditotiempodias', 'activo', 'created_by', 'modified_by'], 'integer'],
             [['creditomonto'], 'number'],
             [['ultima_modificacion'], 'safe'],
-            [['idclienteproveedor'], 'string', 'max' => 255],
             [['notas'], 'string', 'max' => 500],
             [['idcliente'], 'unique'],
             [['idcliente'], 'exist', 'skipOnError' => true, 'targetClass' => RscClienteProveedor::className(), 'targetAttribute' => ['idcliente' => 'idcliente']],
@@ -52,10 +51,9 @@ class RscCreditoscliente extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idcliente' => 'Id Cliente',
-            'idclienteproveedor' => 'Idclienteproveedor',
-            'creditotiempodias' => 'Días de Crédito',
-            'creditomonto' => 'Monto de Crédito',
+            'idcliente' => 'Id cliente',
+            'creditotiempodias' => 'Crédito en días',
+            'creditomonto' => 'Crédito en monto',
             'notas' => 'Notas',
             'activo' => 'Activo',
             'created_by' => 'Created By',
@@ -70,5 +68,13 @@ class RscCreditoscliente extends \yii\db\ActiveRecord
     public function getCliente()
     {
         return $this->hasOne(RscClienteProveedor::className(), ['idcliente' => 'idcliente']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRscPedidoCabeceras()
+    {
+        return $this->hasMany(RscPedidoCabecera::className(), ['idcredito' => 'idcliente']);
     }
 }
