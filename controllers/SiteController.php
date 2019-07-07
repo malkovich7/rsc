@@ -81,11 +81,9 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            $session = Yii::$app->session;
-            $session->set('user_menu', MenuHelper::getAssignedMenu(Yii::$app->user->id));
+
+        if ($model->load(Yii::$app->request->post()) && $model->login())
             return $this->goBack();
-        }
 
         $model->password = '';
         return $this->render('login', [

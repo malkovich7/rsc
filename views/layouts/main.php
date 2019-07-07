@@ -5,6 +5,7 @@
 /* @var $content string */
 
 use app\widgets\Alert;
+use mdm\admin\components\MenuHelper;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -12,9 +13,10 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
-$session = Yii::$app->session;
-$items = $session->has('user_menu') ? $session->get('user_menu') : [];
+$items = [];
+
 if (!Yii::$app->getUser()->isGuest) {
+    $items = MenuHelper::getAssignedMenu(Yii::$app->user->id);
     array_push($items, (
         '<li>'
         . Html::beginForm(['/site/logout'], 'post')

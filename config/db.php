@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=johandrekon.com;dbname=i4089523_wp1',
-    'username' => 'datacoinjoomla',
-    'password' => 'datacoinjoomla',
+    'dsn' => 'mysql:host=sebuscanmascotas.com;dbname=sebusca1_rsc',
+    'username' => 'sebusca1_rsc',
+    'password' => 'X17KyQQ0w0tw',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

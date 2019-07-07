@@ -9,13 +9,14 @@ use mdm\admin\AutocompleteAsset;
 /* @var $this yii\web\View */
 /* @var $model mdm\admin\models\Menu */
 /* @var $form yii\widgets\ActiveForm */
-AutocompleteAsset::register($this);
+/*AutocompleteAsset::register($this);
 $opts = Json::htmlEncode([
         'menus' => Menu::getMenuSource(),
         'routes' => Menu::getSavedRoutes(),
     ]);
 $this->registerJs("var _opts = $opts;");
 $this->registerJs($this->render('_script.js'));
+*/
 ?>
 
 <div class="menu-form">

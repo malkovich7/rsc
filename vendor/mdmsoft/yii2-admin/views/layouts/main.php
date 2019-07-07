@@ -1,5 +1,6 @@
 <?php
 
+use mdm\admin\components\MenuHelper;
 use yii\bootstrap\NavBar;
 use yii\bootstrap\Nav;
 use yii\helpers\Html;
@@ -9,6 +10,21 @@ use yii\helpers\Html;
 
 list(, $url) = Yii::$app->assetManager->publish('@mdm/admin/assets');
 $this->registerCssFile($url . '/main.css');
+$items = [];
+
+if (!Yii::$app->getUser()->isGuest) {
+    $items = MenuHelper::getAssignedMenu(Yii::$app->user->id);
+    array_push($items, (
+        '<li>'
+        . Html::beginForm(['/site/logout'], 'post')
+        . Html::submitButton(
+            'Salir',
+            ['class' => 'btn btn-link logout']
+        )
+        . Html::endForm()
+        . '</li>'
+    ));
+}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -24,24 +40,20 @@ $this->registerCssFile($url . '/main.css');
 <?php $this->beginBody() ?>
 <?php
 NavBar::begin([
-    'brandLabel' => false,
-    'options' => ['class' => 'navbar-inverse navbar-fixed-top'],
+    'brandLabel' => Yii::$app->name,
+    'brandUrl' => Yii::$app->homeUrl,
+    'options' => [
+        'class' => 'navbar-inverse navbar-fixed-top',
+    ],
 ]);
 
 if (!empty($this->params['top-menu']) && isset($this->params['nav-items'])) {
     echo Nav::widget([
         'options' => ['class' => 'nav navbar-nav'],
-        'items' => $this->params['nav-items'],
+        'items' => $items,
     ]);
 }
 
-echo Nav::widget([
-    'options' => ['class' => 'nav navbar-nav navbar-right'],
-    'items' => [[
-        'label' => 'Inicio',
-        'url' => 'index.php'
-    ]]
-]);
 NavBar::end();
 ?>
 
