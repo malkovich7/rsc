@@ -104,13 +104,16 @@ class UserController extends Controller
      */
     public function actionChangeEmail()
     {
-        $model = $this->findModel(Yii::$user->id);
+        $model = $this->findModel(Yii::$app->user->id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->email = Yii::$app->request->post()['User']['email'];
+            $model->updated_at = date('Y-m-d H:i:s');
+            $model->save();
+            return $this->goHome();
         }
 
-        return $this->render('update', [
+        return $this->render('profile', [
             'model' => $model,
         ]);
     }

@@ -17,16 +17,6 @@ $items = [];
 
 if (!Yii::$app->getUser()->isGuest) {
     $items = MenuHelper::getAssignedMenu(Yii::$app->user->id);
-    array_push($items, (
-        '<li>'
-        . Html::beginForm(['/site/logout'], 'post')
-        . Html::submitButton(
-            'Salir',
-            ['class' => 'btn btn-link logout']
-        )
-        . Html::endForm()
-        . '</li>'
-    ));
 }
 ?>
 <?php $this->beginPage() ?>
