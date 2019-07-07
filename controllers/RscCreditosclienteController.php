@@ -66,8 +66,14 @@ class RscCreditosclienteController extends Controller
     {
         $model = new RscCreditoscliente();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcliente]);
+        if ($model->load(Yii::$app->request->post()) ) {
+		$model->activo = 0;
+		$model->created_by = Yii::$app->user->id;
+		$model->modified_by = Yii::$app->user->id;
+		$model->ultima_modificacion=date('Y-m-d H-m-s');
+
+		$model->save();
+		return $this->redirect(['view', 'id' => $model->idcliente]);
         }
 
         return $this->render('create', [
@@ -86,7 +92,10 @@ class RscCreditosclienteController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	if ($model->load(Yii::$app->request->post()) ) {
+		$model->ultima_modificacion=date('Y-m-d H-m-s');                
+		$model->modified_by=Yii::$app->user->id;
+		$model->save();
             return $this->redirect(['view', 'id' => $model->idcliente]);
         }
 
