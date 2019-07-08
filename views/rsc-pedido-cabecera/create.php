@@ -4,9 +4,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RscPedidoCabecera */
+/* @var $catalogs */
 
-$this->title = 'Create Rsc Pedido Cabecera';
-$this->params['breadcrumbs'][] = ['label' => 'Rsc Pedido Cabeceras', 'url' => ['index']];
+$this->title = 'Nuevo Pedido';
+$this->params['breadcrumbs'][] = ['label' => 'Pedidos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rsc-pedido-cabecera-create">
@@ -15,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'catalogs' => $catalogs
     ]) ?>
 
 </div>

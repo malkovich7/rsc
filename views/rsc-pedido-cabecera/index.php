@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\RscPedidoCabeceraSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Rsc Pedido Cabeceras';
+$this->title = 'Pedidos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rsc-pedido-cabecera-index">
@@ -25,28 +25,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'idcliente',
             'idestatus',
             'idprioridad',
             'monto',
-            //'montoiva',
-            //'idiva',
-            //'idcredito',
-            //'fechaelaboracion',
-            //'fechaentrega',
-            //'fechapago',
-            //'factura',
-            //'fechaelaboracionfactura',
-            //'notaspedido:ntext',
-            //'idtipoenvio',
-            //'trackingchofer',
-            //'activo',
-            //'created_by',
-            //'modified_by',
-            //'ultima_modificacion',
-
+            'montoiva',
+            'idiva',
+            'idcredito',
+            'fechaelaboracion',
+            'fechaentrega',
+            'fechapago',
+            'factura',
+            'fechaelaboracionfactura',
+            'notaspedido:ntext',
+            'idtipoenvio',
+            'trackingchofer',
+            'activo',
+            'created_by',
+            'modified_by',
+            'ultima_modificacion',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

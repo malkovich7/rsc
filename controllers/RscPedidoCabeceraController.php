@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\libutils\CargaCatalogos;
 use Yii;
 use app\models\RscPedidoCabecera;
 use app\models\RscPedidoCabeceraSearch;
@@ -66,12 +67,28 @@ class RscPedidoCabeceraController extends Controller
     {
         $model = new RscPedidoCabecera();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $userId = Yii::$app->user->id;;
+            $now = date('Y-m-d H:i:s');
+            $model->ultima_modificacion = $now;
+            $model->modified_by = $userId;
+            $model->fechaelaboracion = $now;
+            $model->activo = 1;
+            $model->created_by = $userId;
+            $model->monto = 2;
+            $model->montoiva = 3;
+            $model->idestatus = 1;
+
+            if($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                die("No data saved");
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
+            'catalogs' => $this->getCatalogs()
         ]);
     }
 
@@ -92,6 +109,7 @@ class RscPedidoCabeceraController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'catalogs' => $this->getCatalogs()
         ]);
     }
 
@@ -123,5 +141,18 @@ class RscPedidoCabeceraController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    private function getCatalogs()
+    {
+        return [
+            'client' => CargaCatalogos::getClients(),
+            'status' => CargaCatalogos::getStatus(),
+            'priority' => CargaCatalogos::getPriorities(),
+            'iva' => CargaCatalogos::getIva(),
+            'credit' => CargaCatalogos::getCredits(),
+            'send_type' => CargaCatalogos::getSendType(),
+            'activo' => [0 => 0, 1 => 1]
+        ];
     }
 }
