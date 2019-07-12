@@ -2,9 +2,9 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=rsc.c7b3pqsajrsn.us-east-1.rds.amazonaws.com;dbname=rsc_db',
-    'username' => 'user_rsc',
-    'password' => 'rsc_2019',
+    'dsn' => 'mysql:host=johandrekon.com;dbname=i4089523_wp1',
+    'username' => 'datacoinjoomla',
+    'password' => 'datacoinjoomla',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)

@@ -13,6 +13,7 @@ use Yii;
  * @property int $idprioridad
  * @property double $monto
  * @property double $montoiva
+ * @property double $montoTotal
  * @property int $idiva
  * @property int $idcredito
  * @property string $fechaelaboracion
@@ -51,10 +52,10 @@ class RscPedidoCabecera extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idcliente', 'idprioridad', 'idiva', 'idcredito', 'notaspedido'], 'required'],
-            [['idcliente', 'idestatus', 'idprioridad', 'idiva', 'idcredito', 'idtipoenvio', 'activo'], 'integer'],
-            [['monto', 'montoiva'], 'number'],
-            [['fechaelaboracion', 'fechaentrega', 'fechapago', 'fechaelaboracionfactura'], 'safe'],
+            [['idcliente', 'idestatus', 'idprioridad', 'idiva', 'idcredito', 'fechaelaboracion', 'fechaentrega', 'fechapago', 'factura', 'notaspedido', 'idtipoenvio', 'trackingchofer', 'activo', 'created_by', 'modified_by'], 'required'],
+            [['idcliente', 'idestatus', 'idprioridad', 'idiva', 'idcredito', 'idtipoenvio', 'activo', 'created_by', 'modified_by'], 'integer'],
+            [['monto', 'montoiva', 'montoTotal'], 'number'],
+            [['fechaelaboracion', 'fechaentrega', 'fechapago', 'fechaelaboracionfactura', 'ultima_modificacion'], 'safe'],
             [['notaspedido'], 'string'],
             [['factura', 'trackingchofer'], 'string', 'max' => 1000],
             [['idcliente'], 'exist', 'skipOnError' => true, 'targetClass' => RscClienteProveedor::className(), 'targetAttribute' => ['idcliente' => 'idcliente']],
@@ -71,26 +72,27 @@ class RscPedidoCabecera extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'id',
+            'id' => 'ID Pedido',
             'idcliente' => 'Cliente',
             'idestatus' => 'Estatus',
             'idprioridad' => 'Prioridad',
             'monto' => 'Monto',
-            'montoiva' => 'Monto IVA',
-            'idiva' => 'IVA',
-            'idcredito' => 'Crédito',
-            'fechaelaboracion' => 'Fecha de elaboración',
+            'montoiva' => 'Monto Iva',
+            'montoTotal' => 'Monto Total',
+            'idiva' => 'Iva',
+            'idcredito' => 'Idcredito',
+            'fechaelaboracion' => 'Fecha de elaboracion',
             'fechaentrega' => 'Fecha de entrega',
             'fechapago' => 'Fecha de pago',
-            'factura' => 'Factura',
-            'fechaelaboracionfactura' => 'Fecha de elaboración de la factura',
-            'notaspedido' => 'Notas del pedido',
-            'idtipoenvio' => 'Tipo de envío',
-            'trackingchofer' => 'Tracking del chofer',
+            'factura' => 'Factura no.',
+            'fechaelaboracionfactura' => 'Fecha factura',
+            'notaspedido' => 'Notas',
+            'idtipoenvio' => 'Envio',
+            'trackingchofer' => 'Tracking/chofer',
             'activo' => 'Activo',
-            'created_by' => 'Creado por',
-            'modified_by' => 'Modificado por',
-            'ultima_modificacion' => 'Última modificación',
+            'created_by' => 'Created By',
+            'modified_by' => 'Modified By',
+            'ultima_modificacion' => 'Ultima Modificacion',
         ];
     }
 

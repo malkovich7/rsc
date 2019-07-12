@@ -18,7 +18,7 @@ class RscPedidoCabeceraSearch extends RscPedidoCabecera
     {
         return [
             [['id', 'idcliente', 'idestatus', 'idprioridad', 'idiva', 'idcredito', 'idtipoenvio', 'activo', 'created_by', 'modified_by'], 'integer'],
-            [['monto', 'montoiva'], 'number'],
+            [['monto', 'montoiva', 'montoTotal'], 'number'],
             [['fechaelaboracion', 'fechaentrega', 'fechapago', 'factura', 'fechaelaboracionfactura', 'notaspedido', 'trackingchofer', 'ultima_modificacion'], 'safe'],
         ];
     }
@@ -65,6 +65,7 @@ class RscPedidoCabeceraSearch extends RscPedidoCabecera
             'idprioridad' => $this->idprioridad,
             'monto' => $this->monto,
             'montoiva' => $this->montoiva,
+            'montoTotal' => $this->montoTotal,
             'idiva' => $this->idiva,
             'idcredito' => $this->idcredito,
             'fechaelaboracion' => $this->fechaelaboracion,

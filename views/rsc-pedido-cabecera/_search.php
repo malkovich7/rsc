@@ -27,6 +27,8 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'montoiva') ?>
 
+    <?php // echo $form->field($model, 'montoTotal') ?>
+
     <?php // echo $form->field($model, 'idiva') ?>
 
     <?php // echo $form->field($model, 'idcredito') ?>
