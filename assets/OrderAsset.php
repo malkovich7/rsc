@@ -20,12 +20,12 @@ class OrderAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/jquery-ui.css',
+        '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.css',
         'css/pages/order.css',
     ];
     public $js = [
-        'js/jquery-ui.js',
-        'js/moment.js',
+        '//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js',
+        '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js',
         '//ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/i18n/jquery-ui-i18n.min.js',
         'js/pages/order.js',
     ];

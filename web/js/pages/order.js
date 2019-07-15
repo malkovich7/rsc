@@ -4,7 +4,8 @@ let days = 0;
 $(document).ready(function () {
     $('.datepicker').datepicker($.datepicker.regional['es']);
 }).on('change', '#deliveryDate', function () {
-    $('#payDate').val(moment(this.value, 'DD/MM/YYYY').add(days, 'd').format('DD/MM/YYYY'));
+    if(days > 0)
+        $('#payDate').val(moment(this.value, 'DD/MM/YYYY').add(days, 'd').format('DD/MM/YYYY'));
 }).on('change', '#clientId', function () {
     $.ajax(
         {
