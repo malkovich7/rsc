@@ -2,9 +2,13 @@
 
 namespace app\controllers;
 
+use app\libutils\CargaCatalogos;
+use app\libutils\DateUtils;
+use DateTime;
 use Yii;
 use app\models\RscPedidoCabecera;
 use app\models\RscPedidoCabeceraSearch;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -41,6 +45,8 @@ class RscPedidoCabeceraController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'clients' => CargaCatalogos::getClients(),
+            'status' => CargaCatalogos::getStatus()
         ]);
     }
 
@@ -66,12 +72,21 @@ class RscPedidoCabeceraController extends Controller
     {
         $model = new RscPedidoCabecera();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->idcredito = $model->idcliente;
+            $model->created_by = Yii::$app->user->id;
+            $model->modified_by = $model->created_by;
+            $this->setDates($model);
+
+            if($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
+            else
+                die("No data saved");
         }
 
         return $this->render('create', [
             'model' => $model,
+            'catalogs' => $this->getCatalogs()
         ]);
     }
 
@@ -86,12 +101,24 @@ class RscPedidoCabeceraController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->idcredito = $model->idcliente;
+            $model->modified_by = Yii::$app->user->id;
+            $model->ultima_modificacion = date('Y-m-d');
+            $this->setDates($model);
+
+            if($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
+            else
+                die("No data saved");
         }
+
+        $model->fechaentrega = DateUtils::toIsoDate($model->fechaentrega);
+        $model->fechapago = DateUtils::toIsoDate($model->fechapago);
 
         return $this->render('update', [
             'model' => $model,
+            'catalogs' => $this->getCatalogs()
         ]);
     }
 
@@ -104,9 +131,31 @@ class RscPedidoCabeceraController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->activo = CargaCatalogos::INACTIVE;
+        $model->save();
+
+        Yii::$app->session->setFlash('message', "Se ha eliminado el pedido $id");
 
         return $this->redirect(['index']);
+    }
+
+    public function actionAjax() {
+        if(($id = (Yii::$app->request->post('id'))) !== NULL) {
+            $response = [
+                "success" => TRUE,
+                "message" => "Operación exitosa",
+                "data" => CargaCatalogos::getCreditByClientId($id)
+            ];
+        } else {
+            $response = [
+                "success" => FALSE,
+                "message" => "Id no válido",
+                "data" => NULL
+            ];
+        }
+
+        return Json::encode($response);
     }
 
     /**
@@ -123,5 +172,25 @@ class RscPedidoCabeceraController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    private function getCatalogs()
+    {
+        return [
+            'client' => CargaCatalogos::getClients(),
+            'status' => CargaCatalogos::getStatus(),
+            'priority' => CargaCatalogos::getPriorities(),
+            'iva' => CargaCatalogos::getIva(),
+            'credit' => CargaCatalogos::getCredits(),
+            'send_type' => CargaCatalogos::getSendType(),
+            'activo' => [0 => 0, 1 => 1]
+        ];
+    }
+
+    private function setDates($model) {
+        if($model !== NULL) {
+            $model->fechapago = DateUtils::toDate($model->fechapago);
+            $model->fechaentrega = DateUtils::toDate($model->fechaentrega);
+        }
     }
 }

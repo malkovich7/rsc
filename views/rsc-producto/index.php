@@ -29,14 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'nombreproducto',
             'preciobase',
-	    [
-		    'attribute' => 'idcategoria',
-		    'value' => 'id0.categoria',
-		    'filter'=>$categorias,
-		    'filterInputOptions'=>['prompt'=>'Categoria','class'=>'form-control']
-
-		    
-	    ],
+            [
+                'attribute' => 'idcategoria',
+                'value' => 'id0.categoria',
+                'filter' => $categorias,
+                'filterInputOptions' => ['prompt' => 'Categoria', 'class' => 'form-control']
+            ],
             'cantidadminimarequerida',
             //'notas:ntext',
             //'activo',

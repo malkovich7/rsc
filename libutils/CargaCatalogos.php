@@ -12,6 +12,11 @@ use app\models\RscPrioridad;
 class CargaCatalogos
 {
 
+    const ACTIVE = 1;
+    const INACTIVE = 0;
+
+    public static $status = ['No', 'Si'];
+
     public static function getCategoriaProducto()
     {
         $categoriaCatalogo = RscCategoriaproducto::find()->orderBy('id')->all();
@@ -21,7 +26,7 @@ class CargaCatalogos
 
     public static function getClients()
     {
-        $clients = RscClienteProveedor::find()->orderBy('nombre, apellidos')->all();
+        $clients = RscClienteProveedor::find()->innerJoinWith('rscCreditoscliente')->where(['idactivo' => self::ACTIVE, 'activo' => self::ACTIVE])->orderBy('nombre, apellidos')->all();
 
         return self::getArray($clients, 'idcliente', ['nombre', 'apellidos']);
     }
@@ -54,12 +59,23 @@ class CargaCatalogos
         return self::getArray($credits, 'idcliente', 'creditomonto');
     }
 
-    public static function getSendType() {
+    public static function getSendType()
+    {
         return [
             0 => 'Seleccione',
             1 => 'Local',
             2 => 'Externo'
         ];
+    }
+
+    public static function getCreditByClientId($id)
+    {
+        return RscCreditoscliente::find()
+            ->where([
+                'idcliente' => $id,
+                'activo' => self::ACTIVE
+            ])
+            ->all();
     }
 
     private static function getArray($list, $key, $value)

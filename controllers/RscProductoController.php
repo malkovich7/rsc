@@ -36,15 +36,12 @@ class RscProductoController extends Controller
      */
     public function actionIndex()
     {
-	$catalogoCategoria=CargaCatalogos::getCategoriaProducto();
-
-
         $searchModel = new RscProductoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-		'searchModel' => $searchModel,
-		'categorias' => $catalogoCategoria,
+            'searchModel' => $searchModel,
+            'categorias' => CargaCatalogos::getCategoriaProducto(),
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -76,8 +73,8 @@ class RscProductoController extends Controller
         }
 
         return $this->render('create', [
-		'model' => $model,
-		'categorias'=> CargaCatalogos::getCategoriaProducto()
+            'model' => $model,
+            'categorias' => CargaCatalogos::getCategoriaProducto()
         ]);
     }
 
@@ -97,8 +94,8 @@ class RscProductoController extends Controller
         }
 
         return $this->render('update', [
-		'model' => $model,
-		'categorias'=>CargaCatalogos::getCategoriaProducto()
+            'model' => $model,
+            'categorias' => CargaCatalogos::getCategoriaProducto()
         ]);
     }
 

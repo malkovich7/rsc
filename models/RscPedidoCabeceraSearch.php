@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\libutils\CargaCatalogos;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\RscPedidoCabecera;
@@ -42,7 +43,7 @@ class RscPedidoCabeceraSearch extends RscPedidoCabecera
     public function search($params)
     {
         $query = RscPedidoCabecera::find();
-
+        $query->where(['activo' => CargaCatalogos::ACTIVE]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

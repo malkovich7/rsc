@@ -1,26 +1,30 @@
 <?php
 
+use app\libutils\CargaCatalogos;
+use app\libutils\DateUtils;
+use app\models\User;
 use yii\helpers\Html;
+use yii\web\YiiAsset;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RscPedidoCabecera */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Rsc Pedido Cabeceras', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Pedidos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
 ?>
 <div class="rsc-pedido-cabecera-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>Pedido <?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Actualizar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '¿Estás seguro de eliminar el pedido?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,26 +34,79 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'idcliente',
-            'idestatus',
-            'idprioridad',
+            [
+                'attribute' => 'idcliente',
+                'value' => function ($model) {
+                    return $model->cliente->nombre . ' ' . $model->cliente->apellidos;
+                }
+            ],
+            [
+                'attribute' => 'idestatus',
+                'value' => function ($model) {
+                    return $model->estatus->nombreestatus;
+                }
+            ],
+            [
+                'attribute' => 'idprioridad',
+                'value' => function ($model) {
+                    return $model->prioridad->nombreprioridad;
+                }
+            ],
             'monto',
             'montoiva',
-            'montoTotal',
-            'idiva',
-            'idcredito',
-            'fechaelaboracion',
-            'fechaentrega',
-            'fechapago',
+            [
+                'attribute' => 'idiva',
+                'value' => function ($model) {
+                    return $model->iva->impuesto;
+                }
+            ],
+            [
+                'attribute' => 'fechaelaboracion',
+                'value' => function ($model) {
+                    return DateUtils::toFullIsoDate($model->fechaelaboracion);
+                }
+            ],
+            [
+                'attribute' => 'fechaentrega',
+                'value' => function ($model) {
+                    return DateUtils::toIsoDate($model->fechaentrega);
+                }
+            ],
+            [
+                'attribute' => 'fechapago',
+                'value' => function ($model) {
+                    return DateUtils::toIsoDate($model->fechapago);
+                }
+            ],
             'factura',
             'fechaelaboracionfactura',
             'notaspedido:ntext',
             'idtipoenvio',
             'trackingchofer',
-            'activo',
-            'created_by',
-            'modified_by',
-            'ultima_modificacion',
+            [
+                'attribute' => 'activo',
+                'value' => function ($model) {
+                    return CargaCatalogos::$status[$model->activo];
+                }
+            ],
+            [
+                'attribute' => 'created_by',
+                'value' => function ($model) {
+                    return User::findOne($model->created_by)->username;
+                }
+            ],
+            [
+                'attribute' => 'modified_by',
+                'value' => function ($model) {
+                    return User::findOne($model->modified_by)->username;
+                }
+            ],
+            [
+                'attribute' => 'ultima_modificacion',
+                'value' => function ($model) {
+                    return DateUtils::toFullIsoDate($model->ultima_modificacion);
+                }
+            ],
         ],
     ]) ?>
 

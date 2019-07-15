@@ -51,6 +51,10 @@ if (!Yii::$app->getUser()->isGuest) {
 
     <div class="container">
         <?= Breadcrumbs::widget([
+            'homeLink' => [
+                'label' => 'Inicio',
+                'url' => Yii::$app->homeUrl,
+            ],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
